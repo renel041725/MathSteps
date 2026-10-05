@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+  <link rel="icon" type="image/avif" href="68travel-EE-2D_transparent.avif">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MathSteps — Primary Math Practice</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f6fb;color:#20242d}
+button,input{font:inherit}header{background:#fff;border-bottom:1px solid #e1e4eb;padding:16px 6%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+.logo{font-weight:800;font-size:24px}.logo span{color:#5965e8}.userbar{display:flex;gap:10px;align-items:center}.pill{background:#eef0ff;color:#4d58d5;padding:8px 13px;border-radius:10px;font-weight:700}
+.btn{border:0;border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:700}.logout{background:#eeeef2;color:#444}
+main{max-width:1050px;margin:auto;padding:35px 20px 60px}.hero{text-align:center;margin-bottom:28px}.hero h1{margin:0 0 8px;font-size:38px}.hero p{color:#707887;margin:0}
+.sections{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:25px}.section{background:#fff;border:2px solid transparent;border-radius:14px;padding:15px 7px;text-align:center;cursor:pointer;font-weight:700}.section.active{border-color:#5965e8;background:#f0f1ff;color:#4d58d5}.section small{display:block;color:#8a909c;font-weight:400;margin-top:5px}
+.card{background:#fff;border-radius:22px;padding:35px;max-width:700px;margin:auto;text-align:center;box-shadow:0 8px 30px #252b4210}.taskname{color:#5965e8;text-transform:uppercase;font-size:13px;font-weight:800;letter-spacing:1px}.progress{margin:12px 0;color:#7a8291;font-size:14px}.taskstats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:12px auto 4px}.taskstats span{background:#f5f6fa;border-radius:9px;padding:7px 10px;color:#687080;font-size:13px}.taskstats b{color:#303642}.taskstats #timerBox{background:#fff0ed;color:#d34e4e}.question{font-size:46px;font-weight:800;margin:22px 0}.answer{width:100%;max-width:320px;padding:14px;border:2px solid #dfe2ea;border-radius:12px;text-align:center;font-size:22px;outline:none}.answer:focus{border-color:#5965e8}.primary{display:block;width:100%;max-width:320px;margin:12px auto 0;background:#5965e8;color:#fff}.secondary{display:block;width:100%;max-width:320px;margin:9px auto 0;background:#eceef3;color:#444}.feedback{min-height:27px;margin-top:14px;font-weight:700}.correct{color:#16834b}.wrong{color:#d34e4e}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:700px;margin:15px auto}.stat{background:#fff;border-radius:14px;text-align:center;padding:14px}.stat strong{display:block;font-size:21px}.stat span{color:#808795;font-size:13px}.done{padding:15px;background:#f0f8f3;border-radius:13px;color:#167b49;font-weight:700}
+.auth{position:fixed;inset:0;background:#f4f6fb;display:flex;align-items:center;justify-content:center;padding:20px;z-index:20}.authbox{background:#fff;width:100%;max-width:410px;border-radius:22px;padding:32px;box-shadow:0 10px 40px #252b4212}.authbox h1{text-align:center;margin:0 0 7px}.authbox p{text-align:center;color:#737b89;margin:0 0 25px}.auth input{width:100%;padding:13px;border:2px solid #dfe2ea;border-radius:11px;margin:7px 0;outline:none}.auth input:focus{border-color:#5965e8}.auth .primary{max-width:none}.link{border:0;background:none;color:#5965e8;cursor:pointer;font-weight:700;display:block;margin:15px auto 0}.authmsg{text-align:center!important;min-height:20px;margin:12px 0!important;font-weight:700}.hidden{display:none!important}
+footer{text-align:center;color:#8a909c;font-size:13px;padding:20px}
+@media(max-width:700px){.sections{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:31px}.card{padding:25px 17px}.question{font-size:38px}}
+</style>
+</head>
+<body>
+
+<div id="auth" class="auth">
+  <div class="authbox">
+    <h1 id="authTitle">Create your account</h1>
+    <p id="authSub">Make an account to save your progress on this device.</p>
+    <div id="signupForm">
+      <input id="newUser" placeholder="Choose a username" autocomplete="username">
+      <input id="newPass" type="password" placeholder="Choose a password" autocomplete="new-password">
+      <input id="newPass2" type="password" placeholder="Repeat your password" autocomplete="new-password">
+      <button class="btn primary" onclick="signup()">Create Account</button>
+      <button class="link" onclick="showLogin()">Already have an account? Log in</button>
+    </div>
+    <div id="loginForm" class="hidden">
+      <input id="loginUser" placeholder="Username" autocomplete="username">
+      <input id="loginPass" type="password" placeholder="Password" autocomplete="current-password">
+      <button class="btn primary" onclick="login()">Log In</button>
+      <button class="link" onclick="showSignup()">Create a new account</button>
+      <button class="link" onclick="showForgot()">Forgot password?</button>
+    </div>
+    <div id="forgotForm" class="hidden">
+      <input id="forgotUser" placeholder="Your username">
+      <input id="forgotNewPass" type="password" placeholder="New password" autocomplete="new-password">
+      <input id="forgotNewPass2" type="password" placeholder="Repeat new password" autocomplete="new-password">
+      <button class="btn primary" onclick="changePassword()">Change Password</button>
+      <button class="link" onclick="showLogin()">Back to login</button>
+    </div>
+    <p id="authMsg" class="authmsg"></p>
+  </div>
+</div>
+
+<header>
+  <div class="logo">Math<span>Steps</span></div>
+  <div class="userbar">
+  <select id="language" class="pill" onchange="changeLanguage(this.value)" aria-label="Language">
+    <option value="en">English</option>
+    <option value="et">Eesti</option>
+  </select>
+  <span class="pill">👤 <span id="username"></span></span>
+  <button class="btn logout" onclick="logout()" id="logoutBtn">Log out</button>
+</div>
+</header>
+
+<main>
+<section class="hero"><h1 id="heroTitle">Grade 3 Math Practice</h1><p id="heroText">Challenge yourself with 10 tasks in every section.</p></section>
+
+<div class="sections">
+  <button class="section active" data-type="addition">➕<br><span data-i18n="addition">Addition</span><small data-i18n="tenTasks">10 tasks</small></button>
+  <button class="section" data-type="subtraction">➖<br><span data-i18n="subtraction">Subtraction</span><small data-i18n="tenTasks">10 tasks</small></button>
+  <button class="section" data-type="multiplication">✖️<br><span data-i18n="multiplication">Multiplication</span><small data-i18n="tenTasks">10 tasks</small></button>
+  <button class="section" data-type="division">➗<br><span data-i18n="division">Division</span><small data-i18n="tenTasks">10 tasks</small></button>
+  <button class="section" data-type="expression">🔢<br><span data-i18n="expressions">Expressions</span><small data-i18n="tenTasks">10 tasks</small></button>
+  <button class="section" data-type="speedrun">⚡<br><span data-i18n="speedrun">Speedrun</span><small data-i18n="fourMinutes">4:00 min</small></button>
+</div>
+
+<section class="card">
+  <div class="taskname" id="taskName">Addition Basics</div>
+  <div class="progress" id="progress">Task 1 of 10</div>
+  <div class="taskstats">
+    <span><span data-i18n="correct">✓ Correct:</span> <b id="taskCorrect">0</b></span>
+    <span><span data-i18n="mistakes">✗ Mistakes:</span> <b id="taskMistakes">0</b></span>
+    <span><span data-i18n="remaining">Remaining:</span> <b id="taskRemaining">10</b></span>
+    <span id="timerBox" class="hidden">⏱ <b id="timer">4:00</b></span>
+  </div>
+  <div class="question" id="question">24 + 17 = ?</div>
+  <input class="answer" id="answer" type="number" placeholder="Your answer" autocomplete="off">
+  <button class="btn primary" id="startSpeed" style="display:none">Start Speedrun</button>
+  <button class="btn primary" id="check">Check Answer</button>
+  <button class="btn secondary" id="next">Next Task</button>
+  <div class="feedback" id="feedback"></div>
+</section>
+
+<div class="stats">
+  <div class="stat"><strong id="score">0</strong><span data-i18n="score">Score</span></div>
+  <div class="stat"><strong id="correct">0</strong><span data-i18n="correctStat">Correct</span></div>
+  <div class="stat"><strong id="accuracy">0%</strong><span data-i18n="accuracy">Accuracy</span></div>
+</div>
+</main>
+<footer>MathSteps • Practice makes progress.</footer>
+
+<script>
+let users=JSON.parse(localStorage.getItem("mathUsers")||"{}");
+let currentUser=localStorage.getItem("mathCurrentUser")||"";
+let type="addition", task=0, correctAnswer=7, answered=false, sectionCorrect=0, sectionMistakes=0, sectionScore=0;
+let speedQuestions=0, speedCorrect=0, speedMistakes=0, speedTime=90, speedTimer=null, speedRunning=false;
+const names={
+ addition:"Addition Challenge",subtraction:"Subtraction Challenge",
+ multiplication:"Multiplication Challenge",division:"Division Challenge",
+ expression:"Expressions & Values",speedrun:"Speedrun"
+};
+const qs={
+ addition:[["18 + 16",34],["27 + 25",52],["34 + 28",62],["45 + 26",71],["52 + 19",71],["63 + 17",80],["41 + 29",70],["76 + 15",91],["108 + 24",132],["125 + 36",161]],
+ subtraction:[["35 − 17",18],["52 − 24",28],["64 − 27",37],["73 − 35",38],["85 − 46",39],["96 − 28",68],["110 − 35",75],["132 − 48",84],["180 − 65",115],["250 − 127",123]],
+ multiplication:[["3 × 6",18],["4 × 7",28],["5 × 7",35],["6 × 6",36],["7 × 5",35],["8 × 4",32],["9 × 4",36],["10 × 6",60],["7 × 7",49],["8 × 8",64]],
+ division:[["18 ÷ 3",6],["24 ÷ 4",6],["30 ÷ 5",6],["36 ÷ 6",6],["42 ÷ 7",6],["48 ÷ 8",6],["54 ÷ 9",6],["40 ÷ 5",8],["56 ÷ 7",8],["72 ÷ 8",9]],
+ expression:[["10 + 7 − 3",14],["18 − 6 + 5",17],["3 × 5 + 4",19],["20 ÷ 4 + 6",11],["4 + 2 × 5",14],["25 − 3 × 4",13],["(5 + 3) × 2",16],["15 ÷ 3 + 7",12],["6 × 4 − 5",19],["30 ÷ 5 + 8",14]]
+};
+
+function save(){localStorage.setItem("mathUsers",JSON.stringify(users))}
+function setMsg(t,good=false){let e=document.getElementById("authMsg");e.textContent=t;e.style.color=good?"#16834b":"#d34e4e"}
+function showSignup(){document.getElementById("signupForm").classList.remove("hidden");document.getElementById("loginForm").classList.add("hidden");document.getElementById("forgotForm").classList.add("hidden");document.getElementById("authTitle").textContent="Create your account";document.getElementById("authSub").textContent="Make an account to save your progress on this device.";setMsg("")}
+function showLogin(){document.getElementById("signupForm").classList.add("hidden");document.getElementById("loginForm").classList.remove("hidden");document.getElementById("forgotForm").classList.add("hidden");document.getElementById("authTitle").textContent="Welcome back";document.getElementById("authSub").textContent="Log in to continue your math practice.";setMsg("")}
+function showForgot(){document.getElementById("signupForm").classList.add("hidden");document.getElementById("loginForm").classList.add("hidden");document.getElementById("forgotForm").classList.remove("hidden");document.getElementById("authTitle").textContent="Reset your password";document.getElementById("authSub").textContent="Enter your username and choose a new password.";setMsg("")}
+function signup(){
+ let u=document.getElementById("newUser").value.trim(),p=document.getElementById("newPass").value,p2=document.getElementById("newPass2").value;
+ if(!u||!p)return setMsg("Please fill in all fields.");
+ if(p.length<4)return setMsg("Password must be at least 4 characters.");
+ if(p!==p2)return setMsg("The passwords do not match.");
+ if(users[u])return setMsg("That username is already taken.");
+ users[u]={password:p,score:0,correct:0,attempts:0};save();currentUser=u;localStorage.setItem("mathCurrentUser",u);startApp();
+}
+function login(){
+ let u=document.getElementById("loginUser").value.trim(),p=document.getElementById("loginPass").value;
+ if(users[u]&&users[u].password===p){currentUser=u;localStorage.setItem("mathCurrentUser",u);startApp()}else setMsg("Incorrect username or password.");
+}
+function changePassword(){
+ let u=document.getElementById("forgotUser").value.trim(),p=document.getElementById("forgotNewPass").value,p2=document.getElementById("forgotNewPass2").value;
+ if(!users[u])return setMsg("That username does not exist.");
+ if(p.length<4)return setMsg("Password must be at least 4 characters.");
+ if(p!==p2)return setMsg("The passwords do not match.");
+ users[u].password=p;save();setMsg("Password changed! You can now log in.",true);setTimeout(showLogin,700);
+}
+function logout(){currentUser="";localStorage.removeItem("mathCurrentUser");document.getElementById("auth").classList.remove("hidden");showLogin()}
+function startApp(){document.getElementById("auth").classList.add("hidden");document.getElementById("username").textContent=currentUser;loadStats();makeTask()}
+function loadStats(){let u=users[currentUser];document.getElementById("score").textContent=u.score;document.getElementById("correct").textContent=u.correct;document.getElementById("accuracy").textContent=u.attempts?Math.round(u.correct/u.attempts*100)+"%":"0%"}
+function makeTask(){
+ if(type==="speedrun"){startSpeedrun();return}
+ if(task>=10){showComplete();return}
+ answered=false;
+ document.getElementById("answer").value="";
+ document.getElementById("feedback").textContent="";
+ document.getElementById("feedback").className="feedback";
+ document.getElementById("answer").style.display="block";
+ document.getElementById("check").style.display="block";
+ document.getElementById("next").style.display="block";
+ document.getElementById("timerBox").classList.add("hidden");
+ document.getElementById("startSpeed").style.display="none";
+ let item=qs[type][task];
+ correctAnswer=item[1];
+ document.getElementById("question").textContent=item[0]+" = ?";
+ document.getElementById("taskName").textContent=names[type];
+ document.getElementById("progress").textContent=tr("task")+" "+(task+1)+" "+tr("of")+" 10";
+ updateTaskStats();
+ document.getElementById("answer").focus();
+}
+function updateTaskStats(){
+ document.getElementById("taskCorrect").textContent=sectionCorrect;
+ document.getElementById("taskMistakes").textContent=sectionMistakes;
+ document.getElementById("taskRemaining").textContent=Math.max(0,10-task);
+}
+function startSpeedrun(){
+ clearInterval(speedTimer);
+ speedQuestions=0; speedCorrect=0; speedMistakes=0; speedTime=240; speedRunning=false;
+ document.getElementById("timerBox").classList.remove("hidden");
+ document.getElementById("timer").textContent="4:00";
+ document.getElementById("taskName").textContent="Speedrun";
+ document.getElementById("progress").textContent=tr("ready");
+ document.getElementById("question").textContent="Can you beat your best?";
+ document.getElementById("answer").value="";
+ document.getElementById("answer").style.display="none";
+ document.getElementById("check").style.display="none";
+ document.getElementById("next").style.display="none";
+ document.getElementById("startSpeed").style.display="block";
+ document.getElementById("feedback").textContent=tr("speedReady");
+ document.getElementById("taskCorrect").textContent="0";
+ document.getElementById("taskMistakes").textContent="0";
+ document.getElementById("taskRemaining").textContent="∞";
+}
+function beginSpeedrun(){
+ speedQuestions=0; speedCorrect=0; speedMistakes=0; speedTime=240; speedRunning=true;
+ document.getElementById("startSpeed").style.display="none";
+ document.getElementById("answer").style.display="block";
+ document.getElementById("check").style.display="block";
+ document.getElementById("timer").textContent="4:00";
+ document.getElementById("feedback").textContent="Go! Go! Go!";
+ document.getElementById("taskCorrect").textContent="0";
+ document.getElementById("taskMistakes").textContent="0";
+ document.getElementById("taskRemaining").textContent="∞";
+ nextSpeedQuestion();
+ runSpeedTimer();
+}
+function nextSpeedQuestion(){
+ const pool=[
+   ["18 + 16",34],["27 + 25",52],["34 + 28",62],["45 + 26",71],
+   ["35 − 17",18],["52 − 24",28],["64 − 27",37],["73 − 35",38],
+   ["3 × 6",18],["4 × 7",28],["5 × 7",35],["6 × 6",36],["7 × 5",35],
+   ["18 ÷ 3",6],["24 ÷ 4",6],["30 ÷ 5",6],["36 ÷ 6",6],["40 ÷ 5",8]
+ ];
+ const item=pool[Math.floor(Math.random()*pool.length)];
+ correctAnswer=item[1];
+ document.getElementById("question").textContent=item[0]+" = ?";
+ document.getElementById("answer").value="";
+ document.getElementById("progress").textContent=tr("task")+" "+(speedQuestions+1);
+ document.getElementById("answer").focus();
+}
+function runSpeedTimer(){
+ clearInterval(speedTimer);
+ speedTimer=setInterval(()=>{
+   speedTime--;
+   const m=Math.floor(speedTime/60), sec=String(speedTime%60).padStart(2,"0");
+   document.getElementById("timer").textContent=m+":"+sec;
+   if(speedTime<=0){clearInterval(speedTimer);speedRunning=false;finishSpeedrun();}
+ },1000);
+}
+function finishSpeedrun(){
+ document.getElementById("question").innerHTML="⚡ Speedrun finished!";
+ document.getElementById("progress").textContent=tr("timesUp");
+ document.getElementById("answer").style.display="none";
+ document.getElementById("check").style.display="none";
+ document.getElementById("timerBox").classList.remove("hidden");
+ document.getElementById("feedback").innerHTML=`You answered <b>${speedQuestions}</b> questions: <b>${speedCorrect}</b> correct and <b>${speedMistakes}</b> mistakes.`;
+ document.getElementById("next").style.display="block";
+ document.getElementById("next").textContent="Try Speedrun Again";
+ document.getElementById("startSpeed").style.display="none";
+ document.getElementById("taskRemaining").textContent="0";
+}
+function showComplete(){
+ document.getElementById("question").innerHTML=tr("sectionComplete");
+ document.getElementById("progress").textContent="You finished all 10 tasks.";
+ document.getElementById("taskName").textContent=names[type];
+ document.getElementById("answer").style.display="none";
+ document.getElementById("check").style.display="none";
+ document.getElementById("next").style.display="block";
+ document.getElementById("next").textContent="Start Again";
+ document.getElementById("timerBox").classList.add("hidden");
+ document.getElementById("feedback").innerHTML=`You got <b>${sectionCorrect}</b> correct and made <b>${sectionMistakes}</b> mistakes. You earned <b>${sectionScore}</b> points.`;
+ updateTaskStats();
+}
+function check(){
+ if(type==="speedrun"){
+   if(!speedRunning)return;
+   const input=document.getElementById("answer"), fb=document.getElementById("feedback");
+   if(input.value.trim()==="")return;
+   const u=users[currentUser];
+   u.attempts++; speedQuestions++;
+   if(Number(input.value)===correctAnswer){
+     u.correct++;u.score+=5;speedCorrect++;
+     fb.textContent="✓ Correct!";fb.className="feedback correct";
+   }else{
+     speedMistakes++;
+     fb.textContent="✗ Keep going!";fb.className="feedback wrong";
+   }
+   save();loadStats();
+   document.getElementById("taskCorrect").textContent=speedCorrect;
+   document.getElementById("taskMistakes").textContent=speedMistakes;
+   nextSpeedQuestion();
+   return;
+ }
+ if(answered){task++;makeTask();return}
+ let input=document.getElementById("answer"),fb=document.getElementById("feedback");
+ if(input.value.trim()===""){fb.textContent="Please enter an answer.";fb.className="feedback wrong";return}
+ let u=users[currentUser];u.attempts++;answered=true;
+ if(Number(input.value)===correctAnswer){
+   u.correct++;u.score+=10;sectionCorrect++;sectionScore+=10;
+   fb.textContent="✓ Correct! Well done!";fb.className="feedback correct"
+ }else{
+   sectionMistakes++;
+   fb.textContent="✗ Not quite. The answer is "+correctAnswer+".";fb.className="feedback wrong"
+ }
+ save();loadStats();updateTaskStats();
+}
+document.querySelectorAll(".section").forEach(b=>b.onclick=()=>{
+ clearInterval(speedTimer);speedRunning=false;
+ document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));
+ b.classList.add("active");type=b.dataset.type;task=0;sectionCorrect=0;sectionMistakes=0;sectionScore=0;
+ document.getElementById("answer").style.display="block";document.getElementById("check").style.display="block";
+ document.getElementById("next").style.display="block";document.getElementById("next").textContent="Next Task";makeTask()
+});
+document.getElementById("check").onclick=check;
+document.getElementById("startSpeed").onclick=beginSpeedrun;
+document.getElementById("next").onclick=()=>{
+ if(type==="speedrun"){startSpeedrun();return}
+ if(task>=10){task=0;sectionCorrect=0;sectionMistakes=0;sectionScore=0;document.getElementById("answer").style.display="block";document.getElementById("check").style.display="block";document.getElementById("next").textContent="Next Task";makeTask()}
+ else if(answered){task++;makeTask()}
+};
+document.getElementById("answer").onkeydown=e=>{if(e.key==="Enter")check()};
+
+const translations={
+ en:{
+  heroTitle:"Grade 3 Math Practice",heroText:"Challenge yourself with 10 tasks in every section.",
+  addition:"Addition",subtraction:"Subtraction",multiplication:"Multiplication",division:"Division",expressions:"Expressions",speedrun:"Speedrun",
+  tenTasks:"10 tasks",fourMinutes:"4:00 min",correct:"✓ Correct:",mistakes:"✗ Mistakes:",remaining:"Remaining:",score:"Score",correctStat:"Correct",accuracy:"Accuracy",
+  logout:"Log out",check:"Check Answer",next:"Next Task",start:"Start Speedrun",yourAnswer:"Your answer",
+  ready:"Ready when you are!",speedReady:"You have 4 minutes. Good luck!",timesUp:"Time's up!",sectionComplete:"🎉 Section complete!",
+  task:"Task",of:"of",questions:"questions",mistakesWord:"mistakes",earned:"points",correctWord:"correct",
+  additionName:"Addition Challenge",subtractionName:"Subtraction Challenge",multiplicationName:"Multiplication Challenge",divisionName:"Division Challenge",expressionName:"Expressions & Values",speedName:"Speedrun"
+ },
+ et:{
+  heroTitle:"3. klassi matemaatika",heroText:"Pane end proovile 10 ülesandega igas osas.",
+  addition:"Liitmine",subtraction:"Lahutamine",multiplication:"Korrutamine",division:"Jagamine",expressions:"Avaldised",speedrun:"Kiirjooks",
+  tenTasks:"10 ülesannet",fourMinutes:"4:00 min",correct:"✓ Õiged:",mistakes:"✗ Vead:",remaining:"Alles:",score:"Punktid",correctStat:"Õiged",accuracy:"Täpsus",
+  logout:"Logi välja",check:"Kontrolli vastust",next:"Järgmine ülesanne",start:"Alusta kiirjooksu",yourAnswer:"Sinu vastus",
+  ready:"Kui oled valmis, alusta!",speedReady:"Sul on 4 minutit. Edu!",timesUp:"Aeg sai otsa!",sectionComplete:"🎉 Osa lõpetatud!",
+  task:"Ülesanne",of:"/",questions:"küsimust",mistakesWord:"viga",earned:"punkti",correctWord:"õigesti",
+  additionName:"Liitmise väljakutse",subtractionName:"Lahutamise väljakutse",multiplicationName:"Korrutamise väljakutse",divisionName:"Jagamise väljakutse",expressionName:"Avaldised ja väärtused",speedName:"Kiirjooks"
+ }
+};
+let lang=localStorage.getItem("mathLanguage")||"en";
+function tr(k){return translations[lang][k]||translations.en[k]||k}
+function changeLanguage(v){
+ lang=v;localStorage.setItem("mathLanguage",v);
+ document.getElementById("language").value=v;
+ document.getElementById("heroTitle").textContent=tr("heroTitle");
+ document.getElementById("heroText").textContent=tr("heroText");
+ document.getElementById("logoutBtn").textContent=tr("logout");
+ document.getElementById("check").textContent=tr("check");
+ document.getElementById("next").textContent=tr("next");
+ document.getElementById("startSpeed").textContent=tr("start");
+ document.getElementById("answer").placeholder=tr("yourAnswer");
+ document.querySelectorAll('[data-i18n]').forEach(e=>e.textContent=tr(e.dataset.i18n));
+ names.addition=tr("additionName");names.subtraction=tr("subtractionName");names.multiplication=tr("multiplicationName");names.division=tr("divisionName");names.expression=tr("expressionName");names.speedrun=tr("speedName");
+ if(type==="speedrun"&&!speedRunning) startSpeedrun(); else if(type!=="speedrun") makeTask();
+}
+document.getElementById("language").value=lang;
+changeLanguage(lang);
+if(currentUser&&users[currentUser])startApp();else showSignup();
+</script>
+</body>
+</html>
